@@ -38,4 +38,10 @@ if ! command -v zoxide >/dev/null; then
   curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 fi
 
+# ------------------------
+# Link dotfiles config
+# ------------------------
+ln -sf ~/dotfiles/.zshrc ~/.zshrc
+
+
 echo "Done installing dotfiles dependencies"
