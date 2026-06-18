@@ -3,9 +3,21 @@ set -e
 
 echo "Installing dependencies..."
 
-# Install packages
-sudo apt-get update
-sudo apt-get install -y curl git fzf
+# ------------------------
+# Fix broken Yarn repo (Codespaces bug)
+# ------------------------
+sudo rm -f /etc/apt/sources.list.d/yarn.list 2>/dev/null || true
+sudo rm -f /etc/apt/sources.list.d/yarn.list.save 2>/dev/null || true
+sudo sed -i '/dl.yarnpkg.com/d' /etc/apt/sources.list 2>/dev/null || true
+
+# ------------------------
+# Apt (safe)
+# ------------------------
+sudo apt-get update || echo "apt update failed, continuing..."
+sudo apt-get install -y curl git fzf || true
+
+# Ensure PATH
+export PATH="$HOME/.local/bin:/usr/local/bin:$PATH"
 
 # ------------------------
 # Starship
@@ -19,17 +31,11 @@ fi
 # ------------------------
 mkdir -p ~/.zsh
 
-# Autosuggestions
-if [ ! -d ~/.zsh/zsh-autosuggestions ]; then
-  git clone https://github.com/zsh-users/zsh-autosuggestions \
-    ~/.zsh/zsh-autosuggestions
-fi
+[ -d ~/.zsh/zsh-autosuggestions ] || \
+  git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 
-# Syntax highlighting
-if [ ! -d ~/.zsh/zsh-syntax-highlighting ]; then
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting \
-    ~/.zsh/zsh-syntax-highlighting
-fi
+[ -d ~/.zsh/zsh-syntax-highlighting ] || \
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
 
 # ------------------------
 # Zoxide
@@ -38,15 +44,12 @@ if ! command -v zoxide >/dev/null; then
   curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 fi
 
-# Link zshrc config
+# ------------------------
+# Link configs
+# ------------------------
 ln -sf ~/dotfiles/.zshrc ~/.zshrc
 
-# Create config dir
 mkdir -p ~/.config
+ln -sf ~/dotfiles/.config/starship.toml ~/.config/starship.toml 2>/dev/null || true
 
-# Link starship config
-ln -sf ~/dotfiles/.config/starship.toml ~/.config/starship.toml
-``
-
-
-echo "Done installing dotfiles dependencies"
+echo "✅ Dotfiles setup complete"
