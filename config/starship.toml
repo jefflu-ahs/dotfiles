@@ -1,0 +1,56 @@
+# Minimal, clean prompt
+
+format = """
+$directory$git_branch$git_status$python
+$character
+"""
+
+# ------------------------
+# Directory
+# ------------------------
+[directory]
+truncation_length = 3
+style = "blue"
+
+# ------------------------
+# Git branch
+# ------------------------
+[git_branch]
+symbol = "🌱 "
+style = "green"
+
+# ------------------------
+# Git status
+# ------------------------
+[git_status]
+style = "yellow"
+
+# ------------------------
+# Python (only when active)
+# ------------------------
+[python]
+symbol = "🐍 "
+style = "cyan"
+pyenv_version_name = false
+
+# ------------------------
+# Prompt character
+# ------------------------
+[character]
+success_symbol = "[❯](green)"
+error_symbol = "[❯](red)"
+
+# ------------------------
+# Disable noisy modules
+# ------------------------
+[docker_context]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[rust]
+disabled = true
+
+[golang]
+disabled = true
