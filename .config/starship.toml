@@ -1,56 +1,134 @@
-# Minimal, clean prompt
-
 format = """
-$directory$git_branch$git_status$python
-$character
+[╭](fg:current_line)\
+$os\
+$directory\
+$git_branch\
+$git_status\
+$fill\
+$python\
+$cmd_duration\
+$status\
+$shell\
+$time\
+$username\
+$line_break\
+$character\
 """
 
-# ------------------------
-# Directory
-# ------------------------
+palette = 'tokyo_night'
+add_newline = true
+
+[palettes.tokyo_night]
+foreground = '#CFD8FF'
+background = '#1F2335'
+current_line = '#3B4261'
+primary = '#1A1B26'
+box = '#3B4261'
+blue = '#7DA6FF'
+cyan = '#8FE3FF'
+green = '#A9E069'
+orange = '#FFA86B'
+pink = '#D2A6FF'
+purple = '#B780F5'
+red = '#FF7A93'
+yellow = '#FFCB6B'
+
+[os]
+format = '(fg:current_line)[](fg:red)[$symbol ](fg:primary bg:red)[](fg:red)'
+disabled = true
+
+[os.symbols]
+Alpine = ''
+Amazon = ''
+Android = ''
+Arch = ''
+CentOS = ''
+Debian = ''
+EndeavourOS = ''
+Fedora = ''
+FreeBSD = ''
+Garuda = ''
+Gentoo = ''
+Linux = ''
+Macos = ''
+Manjaro = ''
+Mariner = ''
+Mint = ''
+NetBSD = ''
+NixOS = ''
+OpenBSD = ''
+OpenCloudOS = ''
+openEuler = ''
+openSUSE = ''
+OracleLinux = '⊂⊃'
+Pop = ''
+Raspbian = ''
+Redhat = ''
+RedHatEnterprise = ''
+Solus = ''
+SUSE = ''
+Ubuntu = ''
+Unknown = ''
+Windows = ''
+
 [directory]
+format = '[─](fg:current_line)[](fg:pink)[󰷏 ](fg:primary bg:pink)[](fg:pink bg:box)[ $read_only$truncation_symbol$path](fg:foreground bg:box)[](fg:box)'
+home_symbol = " ~/"
 truncation_length = 3
-style = "blue"
+truncate_to_repo = true
+read_only = '󱧵 '
+read_only_style = ''
 
-# ------------------------
-# Git branch
-# ------------------------
 [git_branch]
-symbol = "🌱 "
-style = "green"
+format = '[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $branch](fg:foreground bg:box)[](fg:box)'
+symbol = ' '
 
-# ------------------------
-# Git status
-# ------------------------
 [git_status]
-style = "yellow"
+format = '[─](fg:current_line)[](fg:cyan)[ ](fg:primary bg:cyan)[](fg:cyan bg:box)[ $ahead_behind$staged$modified$untracked$deleted$conflicted ](fg:foreground bg:box)[](fg:box)'
 
-# ------------------------
-# Python (only when active)
-# ------------------------
+# The Indicators
+staged = '[+$count](fg:green bg:box) '
+modified = '[!$count](fg:yellow bg:box) '
+conflicted = '[~$count](fg:red bg:box) '
+
+# Ahead/Behind Remote (already in your format string)
+ahead = '[⇡$count](fg:foreground bg:box) '
+behind = '[⇣$count](fg:foreground bg:box) '
+
 [python]
-symbol = "🐍 "
-style = "cyan"
-pyenv_version_name = false
+format = '[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
+symbol = ' python'
 
-# ------------------------
-# Prompt character
-# ------------------------
+[fill]
+symbol = '─'
+style = 'fg:current_line'
+
+[cmd_duration]
+min_time = 500
+format = '[─](fg:current_line)[](fg:orange)[ ](fg:primary bg:orange)[](fg:orange bg:box)[ $duration ](fg:foreground bg:box)[](fg:box)'
+
+[status]
+format = '[─](fg:current_line)[](fg:red)[ ](fg:primary bg:red)[](fg:red bg:box)[ $status](fg:foreground bg:box)[](fg:box)'
+disabled = false
+
+[shell]
+format = '[─](fg:current_line)[](fg:blue)[ ](fg:primary bg:blue)[](fg:blue bg:box)[ $indicator](fg:foreground bg:box)[](fg:box)'
+unknown_indicator = 'shell'
+powershell_indicator = 'powershell'
+fish_indicator = 'fish'
+disabled = false
+
+[time]
+format = '[─](fg:current_line)[](fg:purple)[󰦖 ](fg:primary bg:purple)[](fg:purple bg:box)[ $time](fg:foreground bg:box)[](fg:box)'
+time_format = '%H:%M'
+disabled = false
+
+[username]
+format = '[─](fg:current_line)[](fg:yellow)[ ](fg:primary bg:yellow)[](fg:yellow bg:box)[ $user](fg:foreground bg:box)[](fg:box) '
+show_always = false
+
 [character]
-success_symbol = "[❯](green)"
-error_symbol = "[❯](red)"
-
-# ------------------------
-# Disable noisy modules
-# ------------------------
-[docker_context]
-disabled = true
-
-[nodejs]
-disabled = true
-
-[rust]
-disabled = true
-
-[golang]
-disabled = true
+format = """
+[╰─$symbol](fg:current_line) """
+success_symbol = '[λ](fg:bold white)'
+error_symbol = '[×](fg:bold red)'
